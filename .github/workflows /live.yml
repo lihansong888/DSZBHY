@@ -1,6 +1,5 @@
 name: Sync HUYA Source
 
-
 on:
   push:
     branches: [ main ]
@@ -9,7 +8,6 @@ on:
       - '.github/workflows/live.yml'
   workflow_dispatch:
   schedule:
-    # 每3小时运行一次
     - cron: '0 */3 * * *'
 
 jobs:
@@ -21,6 +19,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install requests
+      - run: ls -R
       - run: python watchtv/live.py
       - run: |
           git config --global user.name "github-actions[bot]"
