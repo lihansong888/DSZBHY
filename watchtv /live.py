@@ -2,7 +2,7 @@ import requests
 import re
 import os
 
-# ========== 填你这个源的地址 ==========
+# ========== 填写源的地址 ==========
 URL_LIST = [
     "https://sub.ottiptv.cc/huyayqk.m3u"
 ]
