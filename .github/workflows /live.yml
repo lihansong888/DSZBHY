@@ -1,4 +1,4 @@
-name: Sync CCTV Source
+name: Sync HUYA Source
 
 on:
   push:
