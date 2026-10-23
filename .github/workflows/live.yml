@@ -1,29 +1,36 @@
-name: Sync HUYA Source
-
+name: Auto Generate M3U
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'watchtv/live.py'
-      - '.github/workflows/live.yml'
-  workflow_dispatch:
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '0 8 * * *'   # 每天早上8点定时跑，你可以自行修改
 
 jobs:
-  sync:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python3.11
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install requests
-      - run: ls -R
-      - run: python watchtv/live.py
-      - run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add watchtv/live.m3u8
-          git commit -m "auto update live.m3u8" || echo "nothing changed"
-          git push origin main
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Run huya.py 虎牙
+        run: python watchtv/huya.py
+      - name: Run douyu.py 斗鱼
+        run: python watchtv/douyu.py
+      - name: Run yy.py YY轮播
+        run: python watchtv/yy.py
+
+      - name: Commit and push m3u
+        run: |
+          git config --global user.name "lihansong888"
+          git config --global user.email "lihansong888@shturl."
+          git add watchtv/huya.m3u8 watchtv/douyu.m3u8 watchtv/yy.m3u8
+          git commit -m "auto update m3u files" || echo "no file changed, skip commit"
+          git push
