@@ -5,6 +5,7 @@ on:
   schedule:
     - cron: '0 */4 * * *'
       timezone: Asia/Shanghai
+  workflow_dispatch:  # 加上这一行！开启手动运行，页面出现Run workflow按钮
 
 jobs:
   build:
