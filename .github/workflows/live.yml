@@ -3,7 +3,8 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 8 * * *'   # 每天早上8点定时跑，你可以自行修改
+    - cron: '0 */4 * * *'
+      timezone: Asia/Shanghai
 
 jobs:
   build:
@@ -21,11 +22,11 @@ jobs:
         run: pip install requests
 
       - name: Run huya.py 虎牙
-        run: python watchtv/huya.py
+        run: python watchtv/huya.py || echo "虎牙脚本执行失败，继续往下"
       - name: Run douyu.py 斗鱼
-        run: python watchtv/douyu.py
+        run: python watchtv/douyu.py || echo "斗鱼脚本执行失败，继续往下"
       - name: Run yy.py YY轮播
-        run: python watchtv/yy.py
+        run: python watchtv/yy.py || echo "YY脚本执行失败，继续往下"
 
       - name: Commit and push m3u
         run: |
